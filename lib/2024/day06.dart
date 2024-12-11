@@ -26,9 +26,10 @@ enum Direction {
     }
   }
 
-  Vector2 getNextPosition(Vector2 currentPosition) {
-    return (x: currentPosition.x + xOffset, y: currentPosition.y + yOffset);
-  }
+  Vector2 getNextPosition(Vector2 currentPosition) => addVector2(
+        currentPosition,
+        (x: xOffset, y: yOffset),
+      );
 
   @override
   String toString() {

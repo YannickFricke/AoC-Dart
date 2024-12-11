@@ -44,10 +44,7 @@ class Grid extends BaseGrid<int> {
     final result = <Vector2>[];
 
     for (var direction in Direction.values) {
-      final positionWithOffset = (
-        x: currentPosition.x + direction.offset.x,
-        y: currentPosition.y + direction.offset.y,
-      );
+      final positionWithOffset = addVector2(currentPosition, direction.offset);
 
       if (isPositionInGrid(positionWithOffset) == false) {
         continue;
