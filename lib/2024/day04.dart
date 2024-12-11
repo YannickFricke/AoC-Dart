@@ -267,7 +267,7 @@ List<FoundMatch> findMatches(List<List<String>> lines, String wordToFind) {
 }
 
 void part1() {
-  final input = readFile("./inputs/2024day04/input.txt")
+  final input = readInputFile(2024, 4, "input")
       .split("\n")
       .map((row) => row.split(""))
       .toList();
@@ -278,7 +278,7 @@ void part1() {
 }
 
 void part2() {
-  final input = readFile("./inputs/2024day04/input.txt")
+  final input = readInputFile(2024, 4, "input")
       .split("\n")
       .map((row) => row.split(""))
       .toList();

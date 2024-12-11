@@ -1,7 +1,7 @@
 import 'package:advent_of_code/utils.dart';
 
 void part1() {
-  final lines = readFile("./inputs/2024day03/input.txt").split("\n");
+  final lines = readInputFile(2024, 3, "input").split("\n");
   final regex = RegExp(r'mul\((?<lhs>\d{1,3})\s*,(?<rhs>\d{1,3})\)');
 
   final foundNumbers = <int>[];
@@ -26,7 +26,7 @@ void part1() {
 }
 
 void part2() {
-  final input = readFile("./inputs/2024day03/input.txt").split("\n").join("");
+  final input = readInputFile(2024, 3, "input").split("\n").join("");
   final regex = RegExp(
     r"(mul\((?<lhs>\d{1,3})\s*,(?<rhs>\d{1,3})\)|do\(\)|don't\(\))",
   );

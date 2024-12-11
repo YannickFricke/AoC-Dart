@@ -50,7 +50,7 @@ int calculateMiddleValueSum(List<List<int>> numbers) {
 }
 
 void part1() {
-  final fileContents = readFile("./inputs/2024day05/input.txt");
+  final fileContents = readInputFile(2024, 5, "input");
   final (orderingRules, pageUpdates) = parseData(fileContents);
   final validPageUpdates = <List<int>>[];
 
@@ -79,7 +79,7 @@ void part1() {
 }
 
 void part2() {
-  final fileContents = readFile("./inputs/2024day05/input.txt");
+  final fileContents = readInputFile(2024, 5, "input");
   final (orderingRules, pageUpdates) = parseData(fileContents);
   final invalidPageUpdates = <List<int>>[];
 

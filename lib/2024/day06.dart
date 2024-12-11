@@ -190,7 +190,7 @@ class Grid {
 }
 
 void part1() {
-  final fileContents = readFile("./inputs/2024day06/input.txt");
+  final fileContents = readInputFile(2024, 6, "input");
   final grid = Grid.parseInput(fileContents);
   final walkedPath = grid.walkGuard();
 
@@ -198,7 +198,7 @@ void part1() {
 }
 
 void part2() {
-  final fileContents = readFile("./inputs/2024day06/test.txt");
+  final fileContents = readInputFile(2024, 6, "input");
 
   final grid = Grid.parseInput(fileContents);
   final initialGuardDirection = grid.guardDirection;
