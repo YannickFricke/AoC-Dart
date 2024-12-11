@@ -1,4 +1,5 @@
 import 'package:advent_of_code/ansi_color.dart';
+import 'package:advent_of_code/base_grid.dart';
 import 'package:advent_of_code/utils.dart';
 import 'package:advent_of_code/vector.dart';
 
@@ -13,12 +14,8 @@ enum Direction {
   const Direction(this.offset);
 }
 
-class Grid {
-  final int width;
-  final int height;
-  final List<List<int>> tiles;
-
-  Grid(this.width, this.height, this.tiles);
+class Grid extends BaseGrid<int> {
+  Grid(super.tiles);
 
   @override
   String toString() {
@@ -41,26 +38,6 @@ class Grid {
     }
 
     return result;
-  }
-
-  bool isPositionInGrid(Vector2 positionToCheck) {
-    if (positionToCheck.x < 0) {
-      return false;
-    }
-
-    if (positionToCheck.x >= width) {
-      return false;
-    }
-
-    if (positionToCheck.y < 0) {
-      return false;
-    }
-
-    if (positionToCheck.y >= height) {
-      return false;
-    }
-
-    return true;
   }
 
   List<Vector2> calculateNeighbors(Vector2 currentPosition) {
@@ -152,12 +129,9 @@ class Grid {
   }
 
   static Grid parse(String input) {
-    var width = 0;
-    var height = 0;
     final tiles = <List<int>>[];
 
     final lines = input.split("\n");
-    height = lines.length;
 
     for (var line in lines) {
       final row = <int>[];
@@ -166,12 +140,10 @@ class Grid {
         row.add(int.parse(character));
       }
 
-      width = row.length;
-
       tiles.add(row);
     }
 
-    return Grid(width, height, tiles);
+    return Grid(tiles);
   }
 }
 

@@ -1,3 +1,4 @@
+import 'package:advent_of_code/base_grid.dart';
 import 'package:advent_of_code/utils.dart';
 import 'package:advent_of_code/vector.dart';
 
@@ -65,14 +66,12 @@ enum Direction {
 
 typedef WalkedPosition = (Vector2, Direction);
 
-class Grid {
-  final List<List<bool>> tiles;
-
+class Grid extends BaseGrid<bool> {
   Vector2 guardPosition;
 
   Direction guardDirection;
 
-  Grid(this.tiles, this.guardPosition, this.guardDirection);
+  Grid(super.tiles, this.guardPosition, this.guardDirection);
 
   Set<Vector2> walkGuard() {
     final walkedPositions = <Vector2>{guardPosition};
@@ -113,7 +112,7 @@ class Grid {
     while (true) {
       final nextPosition = guardDirection.getNextPosition(guardPosition);
 
-      if (nextPosition.x < 0 || nextPosition.y < 0) {
+      if (isPositionInGrid(nextPosition) == false) {
         break;
       }
 
