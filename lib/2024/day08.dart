@@ -1,21 +1,20 @@
 import 'package:advent_of_code/utils.dart';
-
-typedef Position = ({int x, int y});
+import 'package:advent_of_code/vector.dart';
 
 class Grid {
   List<List<String?>> tiles;
 
   Grid(this.tiles);
 
-  Position get dimensions => (x: tiles[0].length, y: tiles.length);
+  Vector2 get dimensions => (x: tiles[0].length, y: tiles.length);
 
   @override
   String toString() {
     return 'Grid{tiles: $tiles}';
   }
 
-  Map<String, List<Position>> getAntennaPositions() {
-    final result = <String, List<Position>>{};
+  Map<String, List<Vector2>> getAntennaPositions() {
+    final result = <String, List<Vector2>>{};
 
     for (var y = 0; y < tiles.length; y++) {
       final currentRow = tiles[y];
@@ -38,12 +37,12 @@ class Grid {
 
   void printGrid() => printGridWithAntinodes({});
 
-  void printGridWithAntinodes(Set<Position> antinodes) {
+  void printGridWithAntinodes(Set<Vector2> antinodes) {
     for (var y = 0; y < tiles.length; y++) {
       final rowCharacters = <String>[];
 
       for (var x = 0; x < tiles[y].length; x++) {
-        final Position currentPosition = (x: x, y: y);
+        final Vector2 currentPosition = (x: x, y: y);
 
         switch (tiles[y][x]) {
           case null:
@@ -59,7 +58,7 @@ class Grid {
     }
   }
 
-  bool isPositionInGrid(Position positionToCheck) {
+  bool isPositionInGrid(Vector2 positionToCheck) {
     if (positionToCheck.y < 0) {
       return false;
     }
@@ -97,11 +96,11 @@ class Grid {
   }
 }
 
-Set<Position> calculateAntinodePositions(
-  List<Position> positions,
+Set<Vector2> calculateAntinodePositions(
+  List<Vector2> positions,
   Grid? grid,
 ) {
-  final result = <Position>{};
+  final result = <Vector2>{};
 
   for (var currentIndex = 0; currentIndex < positions.length; currentIndex++) {
     for (var otherIndex = 0; otherIndex < positions.length; otherIndex++) {
@@ -112,7 +111,7 @@ Set<Position> calculateAntinodePositions(
       final currentPosition = positions[currentIndex];
       final otherPosition = positions[otherIndex];
 
-      final Position offset = (
+      final Vector2 offset = (
         x: otherPosition.x - currentPosition.x,
         y: otherPosition.y - currentPosition.y,
       );
@@ -152,7 +151,7 @@ void part1() {
       .map((antennaPosition) =>
           calculateAntinodePositions(antennaPosition, null))
       .fold(
-        <Position>{},
+        <Vector2>{},
         (acc, antinodePositions) => {...acc, ...antinodePositions},
       )
       .where(parsedGrid.isPositionInGrid)
@@ -173,7 +172,7 @@ void part2() {
             parsedGrid,
           ))
       .fold(
-        <Position>{},
+        <Vector2>{},
         (acc, antinodePositions) => {...acc, ...antinodePositions},
       )
       .where(parsedGrid.isPositionInGrid)

@@ -1,4 +1,5 @@
 import 'package:advent_of_code/utils.dart';
+import 'package:advent_of_code/vector.dart';
 
 enum Direction {
   up(0, -1),
@@ -24,8 +25,8 @@ enum Direction {
     }
   }
 
-  Position getNextPosition(Position currentPosition) {
-    return (currentPosition.$1 + xOffset, currentPosition.$2 + yOffset);
+  Vector2 getNextPosition(Vector2 currentPosition) {
+    return (x: currentPosition.x + xOffset, y: currentPosition.y + yOffset);
   }
 
   @override
@@ -62,26 +63,25 @@ enum Direction {
   }
 }
 
-typedef Position = (int, int);
-typedef WalkedPosition = (Position, Direction);
+typedef WalkedPosition = (Vector2, Direction);
 
 class Grid {
   final List<List<bool>> tiles;
 
-  Position guardPosition;
+  Vector2 guardPosition;
 
   Direction guardDirection;
 
   Grid(this.tiles, this.guardPosition, this.guardDirection);
 
-  Set<Position> walkGuard() {
-    final walkedPositions = <Position>{guardPosition};
+  Set<Vector2> walkGuard() {
+    final walkedPositions = <Vector2>{guardPosition};
 
     while (true) {
       final nextPosition = guardDirection.getNextPosition(guardPosition);
       final isWalkable = tiles
-          .elementAtOrNull(nextPosition.$2)
-          ?.elementAtOrNull(nextPosition.$1);
+          .elementAtOrNull(nextPosition.y)
+          ?.elementAtOrNull(nextPosition.x);
 
       if (isWalkable == null) {
         break;
@@ -100,33 +100,33 @@ class Grid {
   }
 
   bool canMoveOutOfGrid(
-    Position initialGuardPosition,
+    Vector2 initialGuardPosition,
     Direction initialGuardDirection,
-    Position obstacleAtPosition,
+    Vector2 obstacleAtPosition,
   ) {
     guardPosition = initialGuardPosition;
     guardDirection = initialGuardDirection;
 
     final walkedPositions = <WalkedPosition>{};
-    tiles[obstacleAtPosition.$2][obstacleAtPosition.$1] = false;
+    tiles[obstacleAtPosition.y][obstacleAtPosition.x] = false;
 
     while (true) {
       final nextPosition = guardDirection.getNextPosition(guardPosition);
 
-      if (nextPosition.$1 < 0 || nextPosition.$2 < 0) {
+      if (nextPosition.x < 0 || nextPosition.y < 0) {
         break;
       }
 
       final isWalkable = tiles
-          .elementAtOrNull(nextPosition.$2)
-          ?.elementAtOrNull(nextPosition.$1);
+          .elementAtOrNull(nextPosition.y)
+          ?.elementAtOrNull(nextPosition.x);
 
       if (isWalkable == null) {
         break;
       }
 
       if (walkedPositions.contains((guardPosition, guardDirection))) {
-        tiles[obstacleAtPosition.$2][obstacleAtPosition.$1] = true;
+        tiles[obstacleAtPosition.y][obstacleAtPosition.x] = true;
         return false;
       }
 
@@ -139,7 +139,7 @@ class Grid {
       guardPosition = nextPosition;
     }
 
-    tiles[obstacleAtPosition.$2][obstacleAtPosition.$1] = true;
+    tiles[obstacleAtPosition.y][obstacleAtPosition.x] = true;
     return true;
   }
 
@@ -153,7 +153,7 @@ class Grid {
     final rows = lines.map((line) => line.split("").toList()).toList();
 
     final tiles = <List<bool>>[];
-    Position? guardPosition;
+    Vector2? guardPosition;
     Direction? guardDirection;
 
     for (var y = 0; y < rows.length; y++) {
@@ -171,7 +171,7 @@ class Grid {
             break;
 
           case var currentCharacter:
-            guardPosition = (x, y);
+            guardPosition = (x: x, y: y);
             guardDirection = Direction.parse(currentCharacter);
             resultRow.add(true);
             break;
@@ -215,13 +215,11 @@ void part2() {
           ])
       .toSet()
       .where((position) =>
-          grid.tiles
-              .elementAtOrNull(position.$2)
-              ?.elementAtOrNull(position.$1) ==
+          grid.tiles.elementAtOrNull(position.y)?.elementAtOrNull(position.x) ==
           true)
       .toList();
 
-  positionsToPutObstacleOn.sort((a, b) => a.$2.compareTo(b.$2));
+  positionsToPutObstacleOn.sort((a, b) => a.y.compareTo(b.y));
 
   final positionsWhereGuardCannotMoveOut =
       positionsToPutObstacleOn.where((position) {

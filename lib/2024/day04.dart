@@ -1,4 +1,5 @@
 import 'package:advent_of_code/utils.dart';
+import 'package:advent_of_code/vector.dart';
 
 enum Direction {
   top,
@@ -51,21 +52,21 @@ class FoundMatch {
   }
 }
 
-List<(int, int)> calculateDiagonalIndexes(
+List<Vector2> calculateDiagonalIndexes(
   int lineIndex,
   int columnIndex,
   int wordLength,
   int lineMultiplicator,
   int columnMultiplicator,
 ) {
-  final foundIndexes = <(int, int)>[];
+  final foundIndexes = <Vector2>[];
 
   final targetLineIndex = lineIndex + ((wordLength - 1) * lineMultiplicator);
   var lineIndexToWorkWith = lineIndex;
   var columnIndexToWorkWith = columnIndex;
 
   while (lineIndexToWorkWith != targetLineIndex + lineMultiplicator) {
-    foundIndexes.add((lineIndexToWorkWith, columnIndexToWorkWith));
+    foundIndexes.add((x: columnIndexToWorkWith, y: lineIndexToWorkWith));
 
     lineIndexToWorkWith += lineMultiplicator;
     columnIndexToWorkWith += columnMultiplicator;
@@ -115,7 +116,7 @@ List<FoundMatch> findMatches(List<List<String>> lines, String wordToFind) {
         // Check if we can find the word to the top-right direction
         final foundWord = calculateDiagonalIndexes(
                 lineIndex, columnIndex, wordToFind.length, -1, 1)
-            .map((tuple) => lines[tuple.$1][tuple.$2])
+            .map((tuple) => lines[tuple.y][tuple.x])
             .join("");
 
         if (foundWord == wordToFind) {
@@ -160,7 +161,7 @@ List<FoundMatch> findMatches(List<List<String>> lines, String wordToFind) {
           wordToFind.length,
           1,
           1,
-        ).map((tuple) => lines[tuple.$1][tuple.$2]).join("");
+        ).map((tuple) => lines[tuple.y][tuple.x]).join("");
 
         if (foundWord == wordToFind) {
           foundMatches.add(
@@ -202,7 +203,7 @@ List<FoundMatch> findMatches(List<List<String>> lines, String wordToFind) {
         // Check if we can find the word to the bottom-left direction
         final foundWord = calculateDiagonalIndexes(
                 lineIndex, columnIndex, wordToFind.length, 1, -1)
-            .map((tuple) => lines[tuple.$1][tuple.$2])
+            .map((tuple) => lines[tuple.y][tuple.x])
             .join("");
 
         if (foundWord == wordToFind) {
@@ -245,7 +246,7 @@ List<FoundMatch> findMatches(List<List<String>> lines, String wordToFind) {
         // Check if we can find the word to the top-left direction
         final foundWord = calculateDiagonalIndexes(
                 lineIndex, columnIndex, wordToFind.length, -1, -1)
-            .map((tuple) => lines[tuple.$1][tuple.$2])
+            .map((tuple) => lines[tuple.y][tuple.x])
             .join();
 
         if (foundWord == wordToFind) {

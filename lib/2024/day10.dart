@@ -1,5 +1,6 @@
 import 'package:advent_of_code/ansi_color.dart';
 import 'package:advent_of_code/utils.dart';
+import 'package:advent_of_code/vector.dart';
 
 enum Direction {
   up((x: 0, y: -1)),
@@ -7,12 +8,10 @@ enum Direction {
   down((x: 0, y: 1)),
   left((x: -1, y: 0));
 
-  final Position offset;
+  final Vector2 offset;
 
   const Direction(this.offset);
 }
-
-typedef Position = ({int x, int y});
 
 class Grid {
   final int width;
@@ -26,8 +25,8 @@ class Grid {
     return 'Grid{width: $width, height: $height, tiles: $tiles}';
   }
 
-  List<Position> getStartPositions() {
-    final result = <Position>[];
+  List<Vector2> getStartPositions() {
+    final result = <Vector2>[];
 
     for (var y = 0; y < height; y++) {
       for (var x = 0; x < width; x++) {
@@ -44,7 +43,7 @@ class Grid {
     return result;
   }
 
-  bool isPositionInGrid(Position positionToCheck) {
+  bool isPositionInGrid(Vector2 positionToCheck) {
     if (positionToCheck.x < 0) {
       return false;
     }
@@ -64,8 +63,8 @@ class Grid {
     return true;
   }
 
-  List<Position> calculateNeighbors(Position currentPosition) {
-    final result = <Position>[];
+  List<Vector2> calculateNeighbors(Vector2 currentPosition) {
+    final result = <Vector2>[];
 
     for (var direction in Direction.values) {
       final positionWithOffset = (
@@ -83,8 +82,8 @@ class Grid {
     return result;
   }
 
-  List<Set<Position>> calculatePaths() {
-    final result = <Set<Position>>[];
+  List<Set<Vector2>> calculatePaths() {
+    final result = <Set<Vector2>>[];
     final startPositions = getStartPositions();
 
     for (var startPosition in startPositions) {
@@ -94,9 +93,9 @@ class Grid {
     return result;
   }
 
-  List<Set<Position>> calculatePathFromPosition(Position startPosition) {
-    final result = <Set<Position>>[];
-    final pathsToFollow = <Set<Position>>[
+  List<Set<Vector2>> calculatePathFromPosition(Vector2 startPosition) {
+    final result = <Set<Vector2>>[];
+    final pathsToFollow = <Set<Vector2>>[
       {startPosition}
     ];
 
@@ -131,14 +130,14 @@ class Grid {
     return result;
   }
 
-  int getHeightForPosition(Position position) => tiles[position.y][position.x];
+  int getHeightForPosition(Vector2 position) => tiles[position.y][position.x];
 
-  void printPath(Set<Position> path) {
+  void printPath(Set<Vector2> path) {
     for (var y = 0; y < height; y++) {
       final row = <String>[];
 
       for (var x = 0; x < width; x++) {
-        final Position currentPosition = (x: x, y: y);
+        final Vector2 currentPosition = (x: x, y: y);
         final currentHeight = getHeightForPosition(currentPosition);
 
         if (path.contains(currentPosition)) {
@@ -181,7 +180,7 @@ void part1() {
   final parsedGrid = Grid.parse(fileContents);
   final foundPaths = parsedGrid.calculatePaths();
 
-  final Map<Position, Set<Position>> endPositionsForPositions = {};
+  final Map<Vector2, Set<Vector2>> endPositionsForPositions = {};
 
   for (var foundPath in foundPaths) {
     final startPosition = foundPath.first;
@@ -203,7 +202,7 @@ void part2() {
   final parsedGrid = Grid.parse(fileContents);
   final foundPaths = parsedGrid.calculatePaths();
 
-  final Map<Position, int> ratings = {};
+  final Map<Vector2, int> ratings = {};
 
   for (var foundPath in foundPaths) {
     final startPosition = foundPath.first;
