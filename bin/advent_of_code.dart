@@ -8,10 +8,11 @@ import 'package:advent_of_code/2024/day08.dart' as y2024d8;
 import 'package:advent_of_code/2024/day09.dart' as y2024d9;
 import 'package:advent_of_code/2024/day10.dart' as y2024d10;
 import 'package:advent_of_code/2024/day11.dart' as y2024d11;
+import 'package:advent_of_code/2024/day12.dart' as y2024d12;
 
 void main(List<String> arguments) {
   final year = 2024;
-  final day = 10;
+  final day = 12;
   final part = 2;
 
   final stopWatch = Stopwatch();
@@ -94,6 +95,14 @@ void main(List<String> arguments) {
 
     case (2024, 11, 2):
       y2024d11.part2();
+      break;
+
+    case (2024, 12, 1):
+      y2024d12.part1();
+      break;
+
+    case (2024, 12, 2):
+      y2024d12.part2();
       break;
 
     default:
