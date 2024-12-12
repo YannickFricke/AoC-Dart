@@ -1,67 +1,37 @@
 import 'package:advent_of_code/base_grid.dart';
+import 'package:advent_of_code/direction.dart';
 import 'package:advent_of_code/utils.dart';
 import 'package:advent_of_code/vector.dart';
 
-enum Direction {
-  up(0, -1),
-  right(1, 0),
-  down(0, 1),
-  left(-1, 0);
+Direction parseDirection(String input) {
+  switch (input) {
+    case "^":
+      return Direction.up;
 
-  final int xOffset;
-  final int yOffset;
+    case ">":
+      return Direction.right;
 
-  const Direction(this.xOffset, this.yOffset);
+    case "v":
+      return Direction.down;
 
-  Direction turnClockwise() {
-    switch (this) {
-      case up:
-        return Direction.right;
-      case right:
-        return Direction.down;
-      case down:
-        return Direction.left;
-      case left:
-        return Direction.up;
-    }
+    case "<":
+      return Direction.left;
+
+    default:
+      throw Exception("Unknown guard direction character: $input");
   }
+}
 
-  Vector2 getNextPosition(Vector2 currentPosition) => addVector2(
-        currentPosition,
-        (x: xOffset, y: yOffset),
-      );
-
-  @override
-  String toString() {
-    switch (this) {
-      case up:
-        return "^";
-      case right:
-        return ">";
-      case down:
-        return "v";
-      case left:
-        return "<";
-    }
-  }
-
-  static Direction parse(String input) {
-    switch (input) {
-      case "^":
-        return Direction.up;
-
-      case ">":
-        return Direction.right;
-
-      case "v":
-        return Direction.down;
-
-      case "<":
-        return Direction.left;
-
-      default:
-        throw Exception("Unknown guard direction character: $input");
-    }
+String stringifyDirection(Direction direction) {
+  switch (direction) {
+    case Direction.up:
+      return "^";
+    case Direction.right:
+      return ">";
+    case Direction.down:
+      return "v";
+    case Direction.left:
+      return "<";
   }
 }
 
@@ -78,7 +48,7 @@ class Grid extends BaseGrid<bool> {
     final walkedPositions = <Vector2>{guardPosition};
 
     while (true) {
-      final nextPosition = guardDirection.getNextPosition(guardPosition);
+      final nextPosition = addVector2(guardDirection.offset, guardPosition);
       final isWalkable = tiles
           .elementAtOrNull(nextPosition.y)
           ?.elementAtOrNull(nextPosition.x);
@@ -111,7 +81,7 @@ class Grid extends BaseGrid<bool> {
     tiles[obstacleAtPosition.y][obstacleAtPosition.x] = false;
 
     while (true) {
-      final nextPosition = guardDirection.getNextPosition(guardPosition);
+      final nextPosition = addVector2(guardDirection.offset, guardPosition);
 
       if (isPositionInGrid(nextPosition) == false) {
         break;
@@ -172,7 +142,7 @@ class Grid extends BaseGrid<bool> {
 
           case var currentCharacter:
             guardPosition = (x: x, y: y);
-            guardDirection = Direction.parse(currentCharacter);
+            guardDirection = parseDirection(currentCharacter);
             resultRow.add(true);
             break;
         }
@@ -207,10 +177,10 @@ void part2() {
   final walkedPath = grid.walkGuard();
   final positionsToPutObstacleOn = walkedPath
       .expand((position) => [
-            Direction.up.getNextPosition(position),
-            Direction.right.getNextPosition(position),
-            Direction.down.getNextPosition(position),
-            Direction.left.getNextPosition(position),
+            addVector2(Direction.up.offset, position),
+            addVector2(Direction.right.offset, position),
+            addVector2(Direction.down.offset, position),
+            addVector2(Direction.left.offset, position),
             position,
           ])
       .toSet()

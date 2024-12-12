@@ -1,18 +1,8 @@
 import 'package:advent_of_code/ansi_color.dart';
 import 'package:advent_of_code/base_grid.dart';
+import 'package:advent_of_code/direction.dart';
 import 'package:advent_of_code/utils.dart';
 import 'package:advent_of_code/vector.dart';
-
-enum Direction {
-  up((x: 0, y: -1)),
-  right((x: 1, y: 0)),
-  down((x: 0, y: 1)),
-  left((x: -1, y: 0));
-
-  final Vector2 offset;
-
-  const Direction(this.offset);
-}
 
 class Grid extends BaseGrid<int> {
   Grid(super.tiles);
