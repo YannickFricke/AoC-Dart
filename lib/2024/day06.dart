@@ -32,6 +32,8 @@ String stringifyDirection(Direction direction) {
       return "v";
     case Direction.left:
       return "<";
+    default:
+      throw Exception("Cannot stringify unknown direction: $direction");
   }
 }
 
@@ -58,7 +60,7 @@ class Grid extends BaseGrid<bool> {
       }
 
       if (isWalkable == false) {
-        guardDirection = guardDirection.turnClockwise();
+        guardDirection = guardDirection.turnCardinalDirectionClockwise();
         continue;
       }
 
@@ -101,7 +103,7 @@ class Grid extends BaseGrid<bool> {
       }
 
       if (isWalkable == false) {
-        guardDirection = guardDirection.turnClockwise();
+        guardDirection = guardDirection.turnCardinalDirectionClockwise();
         continue;
       }
 
