@@ -112,6 +112,5 @@ void main(List<String> arguments) {
 
   stopWatch.stop();
 
-  print(
-      "Execution took ${stopWatch.elapsedMicroseconds}µs or ${stopWatch.elapsedMilliseconds}ms");
+  print("Execution took ${stopWatch.elapsedMilliseconds}ms");
 }
