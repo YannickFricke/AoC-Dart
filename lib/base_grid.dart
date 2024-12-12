@@ -28,4 +28,12 @@ abstract class BaseGrid<TileType> {
 
     return true;
   }
+
+  TileType? getTileForPosition(Vector2 position) {
+    if (isPositionInGrid(position) == false) {
+      return null;
+    }
+
+    return tiles[position.y][position.x];
+  }
 }
