@@ -33,7 +33,7 @@ class Grid extends BaseGrid<int> {
   List<Vector2> calculateNeighbors(Vector2 currentPosition) {
     final result = <Vector2>[];
 
-    for (var direction in Direction.values) {
+    for (var direction in Direction.cardinal) {
       final positionWithOffset = addVector2(currentPosition, direction.offset);
 
       if (isPositionInGrid(positionWithOffset) == false) {
